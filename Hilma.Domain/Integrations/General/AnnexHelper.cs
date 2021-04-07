@@ -1,4 +1,4 @@
-using Hilma.Domain.DataContracts;
+using Hilma.Domain.Data.Read;
 using Hilma.Domain.Entities;
 using Hilma.Domain.Entities.Annexes;
 using Hilma.Domain.Enums;

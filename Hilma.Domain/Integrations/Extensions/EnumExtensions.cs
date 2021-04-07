@@ -1,157 +1,155 @@
 using System;
 using System.Text;
-using Hilma.Domain.DataContracts;
-using Hilma.Domain.Entities;
-using Hilma.Domain.Enums;
 using Hilma.Domain.Exceptions;
+using Hilma.Domain.Data.Read;
 
 namespace Hilma.Domain.Integrations.Extensions
 {
     public static class EnumExtensions
     {
-        public static string ToTEDFormat(this ContractingAuthorityType type)
+        public static string ToTEDFormat(this OrganisationContractContractingAuthorityType type)
         {
             switch (type)
             {
-                case ContractingAuthorityType.MaintypeMinistry:
+                case OrganisationContractContractingAuthorityType.MaintypeMinistry:
                     return "MINISTRY";
-                case ContractingAuthorityType.MaintypeNatagency:
+                case OrganisationContractContractingAuthorityType.MaintypeNatagency:
                     return "NATIONAL_AGENCY";
-                case ContractingAuthorityType.MaintypeLocalauth:
+                case OrganisationContractContractingAuthorityType.MaintypeLocalauth:
                     return "REGIONAL_AUTHORITY";
-                case ContractingAuthorityType.MaintypeLocalagency:
+                case OrganisationContractContractingAuthorityType.MaintypeLocalagency:
                     return "REGIONAL_AGENCY";
-                case ContractingAuthorityType.MaintypePublicbody:
+                case OrganisationContractContractingAuthorityType.MaintypePublicbody:
                     return "BODY_PUBLIC";
-                case ContractingAuthorityType.MaintypeEu:
+                case OrganisationContractContractingAuthorityType.MaintypeEu:
                     return "EU_INSTITUTION";
                 default:
                     return "";
             }
         }
 
-        public static string ToTEDFormat(this MainActivity activity)
+        public static string ToTEDFormat(this OrganisationContractMainActivity activity)
         {
             switch (activity)
             {
-                case MainActivity.MainactivGeneral:
+                case OrganisationContractMainActivity.MainactivGeneral:
                     return "GENERAL_PUBLIC_SERVICES";
-                case MainActivity.MainactivDefence:
+                case OrganisationContractMainActivity.MainactivDefence:
                     return "DEFENCE";
-                case MainActivity.MainactivEconomic:
+                case OrganisationContractMainActivity.MainactivEconomic:
                     return "ECONOMIC_AND_FINANCIAL_AFFAIRS";
-                case MainActivity.MainactivEducation:
+                case OrganisationContractMainActivity.MainactivEducation:
                     return "EDUCATION";
-                case MainActivity.MainactivEnvironment:
+                case OrganisationContractMainActivity.MainactivEnvironment:
                     return "ENVIRONMENT";
-                case MainActivity.MainactivHealth:
+                case OrganisationContractMainActivity.MainactivHealth:
                     return "HEALTH";
-                case MainActivity.MainactivHousing:
+                case OrganisationContractMainActivity.MainactivHousing:
                     return "HOUSING_AND_COMMUNITY_AMENITIES";
-                case MainActivity.MainactivSafety:
+                case OrganisationContractMainActivity.MainactivSafety:
                     return "PUBLIC_ORDER_AND_SAFETY";
-                case MainActivity.MainactivCulture:
+                case OrganisationContractMainActivity.MainactivCulture:
                     return "RECREATION_CULTURE_AND_RELIGION";
-                case MainActivity.MainactivSocial:
+                case OrganisationContractMainActivity.MainactivSocial:
                     return "SOCIAL_PROTECTION";
                 default:
                     return "";
             }
         }
 
-        public static string ToTEDFormat(this MainActivityUtilities activity)
+        public static string ToTEDFormat(this OrganisationContractMainActivityUtilities activity)
         {
             switch (activity)
             {
-                case MainActivityUtilities.MainactivGasProduct:
+                case OrganisationContractMainActivityUtilities.MainactivGasProduct:
                     return "PRODUCTION_TRANSPORT_DISTRIBUTION_GAS_HEAT";
-                case MainActivityUtilities.MainactivElectricity:
+                case OrganisationContractMainActivityUtilities.MainactivElectricity:
                     return "ELECTRICITY";
-                case MainActivityUtilities.MainactivGasExplor:
+                case OrganisationContractMainActivityUtilities.MainactivGasExplor:
                     return "EXPLORATION_EXTRACTION_GAS_OIL";
-                case MainActivityUtilities.MainactivCoal:
+                case OrganisationContractMainActivityUtilities.MainactivCoal:
                     return "EXPLORATION_EXTRACTION_COAL_OTHER_SOLID_FUEL";
-                case MainActivityUtilities.MainactivWater:
+                case OrganisationContractMainActivityUtilities.MainactivWater:
                     return "WATER";
-                case MainActivityUtilities.MainactivPostal:
+                case OrganisationContractMainActivityUtilities.MainactivPostal:
                     return "POSTAL_SERVICES";
-                case MainActivityUtilities.MainactivRailway:
+                case OrganisationContractMainActivityUtilities.MainactivRailway:
                     return "RAILWAY_SERVICES";
-                case MainActivityUtilities.MainactivBus:
+                case OrganisationContractMainActivityUtilities.MainactivBus:
                     return "URBAN_RAILWAY_TRAMWAY_TROLLEYBUS_BUS_SERVICES";
-                case MainActivityUtilities.MainactivPort:
+                case OrganisationContractMainActivityUtilities.MainactivPort:
                     return "PORT_RELATED_ACTIVITIES";
-                case MainActivityUtilities.MainactivAirportrelated:
+                case OrganisationContractMainActivityUtilities.MainactivAirportrelated:
                     return "AIRPORT_RELATED_ACTIVITIES";
                 default:
                     return "";
             }
         }
 
-        public static string ToTEDFormat(this ContractType type, ProcurementCategory category = ProcurementCategory.Undefined)
+        public static string ToTEDFormat(this ProcurementProjectContractContractType type, ProcurementProjectContractProcurementCategory category = ProcurementProjectContractProcurementCategory.Undefined)
         {
             switch (type)
             {
-                case ContractType.Supplies:
-                    if (category == ProcurementCategory.Lisence)
+                case ProcurementProjectContractContractType.Supplies:
+                    if (category == ProcurementProjectContractProcurementCategory.Lisence)
                     {
                         throw new HilmaException("License legal basis does not support supplies contract type!");
                     }
                     return "SUPPLIES";
-                case ContractType.SocialServices:
-                case ContractType.Services:
+                case ProcurementProjectContractContractType.SocialServices:
+                case ProcurementProjectContractContractType.Services:
                     return "SERVICES";
-                case ContractType.Works:
+                case ProcurementProjectContractContractType.Works:
                     return "WORKS";
                 default:
                     return "";
             }
         }
-        public static string ToTEDFormat(this Supplies type)
+        public static string ToTEDFormat(this ProcurementProjectContractDefenceSupplies type)
         {
             switch (type)
             {
-                case Supplies.Combination:
+                case ProcurementProjectContractDefenceSupplies.Combination:
                     return "COMBINATION_THESE";
-                case Supplies.HirePurchase:
+                case ProcurementProjectContractDefenceSupplies.HirePurchase:
                     return "HIRE_PURCHASE";
-                case Supplies.Lease:
+                case ProcurementProjectContractDefenceSupplies.Lease:
                     return "LEASE";
-                case Supplies.Purchase:
+                case ProcurementProjectContractDefenceSupplies.Purchase:
                     return "PURCHASE";
-                case Supplies.Rental:
+                case ProcurementProjectContractDefenceSupplies.Rental:
                     return "RENTAL";
                 default:
                     return "";
             }
         }
 
-        public static string ToTEDFormat(this ProcedureType type)
+        public static string ToTEDFormat(this ProcedureInformationProcedureType type)
         {
             switch (type)
             {
-                case ProcedureType.ProctypeOpen:
+                case ProcedureInformationProcedureType.ProctypeOpen:
                     return "PT_OPEN";
-                case ProcedureType.ProctypeRestricted:
+                case ProcedureInformationProcedureType.ProctypeRestricted:
                     return "PT_RESTRICTED";
-                case ProcedureType.ProctypeCompNegotiation:
+                case ProcedureInformationProcedureType.ProctypeCompNegotiation:
                     return "PT_COMPETITIVE_NEGOTIATION";
-                case ProcedureType.ProctypeCompDialogue:
+                case ProcedureInformationProcedureType.ProctypeCompDialogue:
                     return "PT_COMPETITIVE_DIALOGUE";
-                case ProcedureType.ProctypeInnovation:
+                case ProcedureInformationProcedureType.ProctypeInnovation:
                     return "PT_INNOVATION_PARTNERSHIP";
-                case ProcedureType.ProctypeNegotiationsInvolved:
+                case ProcedureInformationProcedureType.ProctypeNegotiationsInvolved:
                     return "PT_INVOLVING_NEGOTIATION";
-                case ProcedureType.ProctypeNegotiation:
+                case ProcedureInformationProcedureType.ProctypeNegotiation:
                     return "PT_NEGOTIATED_CHOICE";
-                case ProcedureType.ProctypeNegotiatedWoPub:
-                case ProcedureType.ProctypeConcessionWoPub:
-                case ProcedureType.ProctypeAwardWoCall:
-                case ProcedureType.ProctypeNegotiatedWoNotice:
+                case ProcedureInformationProcedureType.ProctypeNegotiatedWoPub:
+                case ProcedureInformationProcedureType.ProctypeConcessionWoPub:
+                case ProcedureInformationProcedureType.ProctypeAwardWoCall:
+                case ProcedureInformationProcedureType.ProctypeNegotiatedWoNotice:
                     return "PT_NEGOTIATED_WITHOUT_PUBLICATION";
-                case ProcedureType.AwardWoPriorPubD1:
-                case ProcedureType.AwardWoPriorPubD4:
-                case ProcedureType.AwardWoPriorPubD1Other:
+                case ProcedureInformationProcedureType.AwardWoPriorPubD1:
+                case ProcedureInformationProcedureType.AwardWoPriorPubD4:
+                case ProcedureInformationProcedureType.AwardWoPriorPubD1Other:
                     return "PT_AWARD_CONTRACT_WITHOUT_CALL";
                 default:
                     return "";
@@ -159,30 +157,30 @@ namespace Hilma.Domain.Integrations.Extensions
         }
 
 
-        public static string ToTEDChangeFormat(this TenderSendOptions type)
+        public static string ToTEDChangeFormat(this CommunicationInformationSendTendersOption type)
         {
             switch (type)
             {
-                case TenderSendOptions.AddressSendTenders:
+                case CommunicationInformationSendTendersOption.AddressSendTenders:
                     return "address_send_tenders";
-                case TenderSendOptions.AddressOrganisation:
+                case CommunicationInformationSendTendersOption.AddressOrganisation:
                     return "address_to_above";
-                case TenderSendOptions.AddressFollowing:
+                case CommunicationInformationSendTendersOption.AddressFollowing:
                     return "address_following";
-                case TenderSendOptions.EmailSendTenders:
+                case CommunicationInformationSendTendersOption.EmailSendTenders:
                     return "email_send_tenders";
                 default:
                     return "";
             }
         }
 
-        public static string ToTEDChangeFormat(this ContractAwarded type)
+        public static string ToTEDChangeFormat(this AwardContractAwarded type)
         {
             switch (type)
             {
-                case ContractAwarded.AwardedContract:
+                case AwardContractAwarded.AwardedContract:
                     return "yes";
-                case ContractAwarded.NoAwardedContract:
+                case AwardContractAwarded.NoAwardedContract:
                     return "no";
                 default:
                     return "";

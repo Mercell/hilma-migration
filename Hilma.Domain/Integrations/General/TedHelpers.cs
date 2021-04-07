@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Hilma.Domain.DataContracts;
-using Hilma.Domain.Entities;
+using Hilma.Domain.Data.Read;
 
 namespace Hilma.Domain.Integrations.General
 {

@@ -1,4 +1,4 @@
-using Hilma.Domain.DataContracts;
+using Hilma.Domain.Data.Read;
 using Hilma.Domain.Entities;
 using Hilma.Domain.Entities.Annexes;
 using Hilma.Domain.Enums;
@@ -29,7 +29,7 @@ namespace Hilma.Domain.Integrations.Defence
 
         public IEnumerable<XElement> SelectAnnexD()
         {
-            if (_notice.Type == NoticeType.DefenceContractAward &&
+            if (_notice.Type == NoticeContractType.DefenceContractAward &&
                 _notice.Project.ProcurementCategory == ProcurementCategory.Defence)
             {
                 // Annex D3

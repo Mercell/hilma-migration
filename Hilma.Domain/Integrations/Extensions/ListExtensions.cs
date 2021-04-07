@@ -1,12 +1,10 @@
 using Hilma.Domain.Attributes;
-using Hilma.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
-using Hilma.Domain.Enums;
 using Hilma.Domain.Extensions;
 using Newtonsoft.Json.Linq;
+using Hilma.Domain.Data.Read;
 
 namespace Hilma.Domain.Integrations.Extensions
 {
@@ -161,8 +159,8 @@ namespace Hilma.Domain.Integrations.Extensions
             string propertyName, string lotNumber = null, string section = null, string translationKey = null, string alternativeMinTranslationKey = null, string alternativeMaxTranslationKey = null )
         {
            
-            var originalIsRange = originalValue?.Type == ContractValueType.Range;
-            var newIsRange = newValue?.Type == ContractValueType.Range;
+            var originalIsRange = originalValue?.Type == ValueRangeContractType.Range;
+            var newIsRange = newValue?.Type == ValueRangeContractType.Range;
 
             changes.Add(originalValue?.Value, newValue?.Value, type, propertyName, lotNumber, section, translationKey) ;
             changes.Add(originalValue?.MinValue, newValue?.MinValue, type, propertyName, lotNumber, section, alternativeMinTranslationKey);

@@ -1,4 +1,4 @@
-using Hilma.Domain.DataContracts;
+using Hilma.Domain.Data.Read;
 using Hilma.Domain.Integrations.Configuration;
 using System;
 

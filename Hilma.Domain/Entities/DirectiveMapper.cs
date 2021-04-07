@@ -1,5 +1,4 @@
-using Hilma.Domain.DataContracts;
-using Hilma.Domain.Enums;
+using Hilma.Domain.Data.Read;
 
 namespace Hilma.Domain.Integrations.General
 {
@@ -34,59 +33,59 @@ namespace Hilma.Domain.Integrations.General
         {
             switch (notice.Type)
             {
-                case NoticeType.PriorInformation:
-                case NoticeType.PriorInformationReduceTimeLimits:
-                case NoticeType.Contract:
-                case NoticeType.ContractAward:
-                    return notice.Project.Organisation.ContractingAuthorityType == ContractingAuthorityType.MaintypeEu ? EuEuratom2018Directive : EuPublicProcurements2014Directive;
-                case NoticeType.PeriodicIndicativeUtilities:
-                case NoticeType.PeriodicIndicativeUtilitiesReduceTimeLimits:
-                case NoticeType.ContractUtilities:
-                case NoticeType.ContractAwardUtilities:
-                case NoticeType.QualificationSystemUtilities:
-                case NoticeType.SocialUtilities:
-                case NoticeType.SocialUtilitiesPriorInformation:
-                case NoticeType.SocialUtilitiesContractAward:
-                case NoticeType.SocialUtilitiesQualificationSystem:
+                case NoticeContractType.PriorInformation:
+                case NoticeContractType.PriorInformationReduceTimeLimits:
+                case NoticeContractType.Contract:
+                case NoticeContractType.ContractAward:
+                    return notice.Project.Organisation.ContractingAuthorityType == OrganisationContractContractingAuthorityType.MaintypeEu ? EuEuratom2018Directive : EuPublicProcurements2014Directive;
+                case NoticeContractType.PeriodicIndicativeUtilities:
+                case NoticeContractType.PeriodicIndicativeUtilitiesReduceTimeLimits:
+                case NoticeContractType.ContractUtilities:
+                case NoticeContractType.ContractAwardUtilities:
+                case NoticeContractType.QualificationSystemUtilities:
+                case NoticeContractType.SocialUtilities:
+                case NoticeContractType.SocialUtilitiesPriorInformation:
+                case NoticeContractType.SocialUtilitiesContractAward:
+                case NoticeContractType.SocialUtilitiesQualificationSystem:
                     return EuUtilitiesProcurements2014Directive;
-                case NoticeType.DesignContest:
-                case NoticeType.DesignContestResults:
-                    return notice.Project.ProcurementCategory == ProcurementCategory.Public ? EuPublicProcurements2014Directive : EuUtilitiesProcurements2014Directive;
-                case NoticeType.SocialPriorInformation:
-                case NoticeType.SocialContract:
-                case NoticeType.SocialContractAward:
+                case NoticeContractType.DesignContest:
+                case NoticeContractType.DesignContestResults:
+                    return notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Public ? EuPublicProcurements2014Directive : EuUtilitiesProcurements2014Directive;
+                case NoticeContractType.SocialPriorInformation:
+                case NoticeContractType.SocialContract:
+                case NoticeContractType.SocialContractAward:
                     return EuPublicProcurements2014Directive;
-                case NoticeType.SocialConcessionPriorInformation:
-                case NoticeType.SocialConcessionAward:
-                case NoticeType.Concession:
-                case NoticeType.ConcessionAward:
+                case NoticeContractType.SocialConcessionPriorInformation:
+                case NoticeContractType.SocialConcessionAward:
+                case NoticeContractType.Concession:
+                case NoticeContractType.ConcessionAward:
                     return EuConcessionProcurement2014Directive;
-                case NoticeType.DefenceSimplifiedContract:
-                case NoticeType.DefenceConcession:
-                case NoticeType.DefenceContractConcessionnaire:
-                case NoticeType.DefencePriorInformation:
-                case NoticeType.DefenceContract:
-                case NoticeType.DefenceContractAward:
-                case NoticeType.DefenceContractSub:
+                case NoticeContractType.DefenceSimplifiedContract:
+                case NoticeContractType.DefenceConcession:
+                case NoticeContractType.DefenceContractConcessionnaire:
+                case NoticeContractType.DefencePriorInformation:
+                case NoticeContractType.DefenceContract:
+                case NoticeContractType.DefenceContractAward:
+                case NoticeContractType.DefenceContractSub:
                     return EuDefenceProcurements2009Directive;
-                case NoticeType.ExAnte:
-                    if (notice.Project.ProcurementCategory == ProcurementCategory.Defence)
+                case NoticeContractType.ExAnte:
+                    if (notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Defence)
                     {
                         return EuDefenceProcurements2009Directive;
-                    } else if (notice.Project.ProcurementCategory == ProcurementCategory.Utility)
+                    } else if (notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Utility)
                     {
                         return EuUtilitiesProcurements2014Directive;
                     }
-                    else if (notice.Project.ProcurementCategory == ProcurementCategory.Lisence)
+                    else if (notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Lisence)
                     {
                         return EuConcessionProcurement2014Directive;
                     }
-                    else if (notice.Project.ProcurementCategory == ProcurementCategory.Public)
+                    else if (notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Public)
                     {
                         return EuPublicProcurements2014Directive;
                     }
                     return null;
-                case NoticeType.Modification:
+                case NoticeContractType.Modification:
                     if (parent != null && notice.ParentId != null)
                     {
                         if( !string.IsNullOrEmpty(parent.LegalBasis))
@@ -99,12 +98,12 @@ namespace Hilma.Domain.Integrations.General
                     {
                         return GetDirectiveByProcurementCategory(notice);
                     }
-                case NoticeType.BuyerProfile:   // Killed with holy fire
-                case NoticeType.DpsAward:
+                case NoticeContractType.BuyerProfile:   // Killed with holy fire
+                case NoticeContractType.DpsAward:
                     // Copied from Contract award and contract award utilities based on procurement category
-                    if (notice.Project.ProcurementCategory == ProcurementCategory.Public)
+                    if (notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Public)
                     {
-                        return notice.Project.Organisation.ContractingAuthorityType == ContractingAuthorityType.MaintypeEu
+                        return notice.Project.Organisation.ContractingAuthorityType == OrganisationContractContractingAuthorityType.MaintypeEu
                             ? EuEuratom2018Directive
                             : EuPublicProcurements2014Directive;
                     }
@@ -120,13 +119,13 @@ namespace Hilma.Domain.Integrations.General
         {
             switch (parent.Project.ProcurementCategory)
             {
-                case ProcurementCategory.Defence:
+                case ProcurementProjectContractProcurementCategory.Defence:
                     return EuDefenceProcurements2009Directive;
-                case ProcurementCategory.Lisence:
+                case ProcurementProjectContractProcurementCategory.Lisence:
                     return EuConcessionProcurement2014Directive;
-                case ProcurementCategory.Public:
+                case ProcurementProjectContractProcurementCategory.Public:
                     return EuPublicProcurements2014Directive;
-                case ProcurementCategory.Utility:
+                case ProcurementProjectContractProcurementCategory.Utility:
                     return EuUtilitiesProcurements2014Directive;
                 default:
                     return EuPublicProcurements2014Directive;

@@ -1,6 +1,6 @@
 using System;
 using AutoMapper;
-using Hilma.Domain.DataContracts;
+using Hilma.Domain.Data.Read;
 using Hilma.Domain.Entities;
 
 namespace Hilma.Domain.Profiles

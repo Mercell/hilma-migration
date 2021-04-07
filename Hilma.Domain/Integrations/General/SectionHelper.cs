@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Xml.Linq;
 using Hilma.Domain.Configuration;
-using Hilma.Domain.DataContracts;
+using Hilma.Domain.Data.Read;
 using Hilma.Domain.Entities;
 using Hilma.Domain.Enums;
 using Hilma.Domain.Exceptions;
@@ -56,7 +56,7 @@ namespace Hilma.Domain.Integrations.General
             ProcurementProjectContract project,
             ContactPerson contactPerson,
             CommunicationInformation communicationInformation,
-            NoticeType type,
+            NoticeContractType type,
             bool hideJoint = false)
         {
             var organisation = project?.Organisation;
@@ -64,17 +64,17 @@ namespace Hilma.Domain.Integrations.General
                 return null;
 
             // F15 ex-ante and dps award for utility procurements behaves as an utility notice here
-            // project.ProcurementCategory == ProcurementCategory.Utility might be enough alone
+            // project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Utility might be enough alone
             bool isUtilitiesNotice;
-            if (type == NoticeType.Concession || type == NoticeType.ConcessionAward || type == NoticeType.ExAnte )
+            if (type == NoticeContractType.Concession || type == NoticeContractType.ConcessionAward || type == NoticeContractType.ExAnte )
             {
-                isUtilitiesNotice = organisation.ContractingType == ContractingType.ContractingEntity || project.ProcurementCategory == ProcurementCategory.Utility;
+                isUtilitiesNotice = organisation.ContractingType == OrganisationContractContractingType.ContractingEntity || project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Utility;
             }
             else
             {
                 isUtilitiesNotice = type.IsUtilities() ||
-                    (( type == NoticeType.DpsAward || type == NoticeType.DesignContest || type == NoticeType.DesignContestResults) &&
-                        project.ProcurementCategory == ProcurementCategory.Utility);
+                    (( type == NoticeContractType.DpsAward || type == NoticeContractType.DesignContest || type == NoticeContractType.DesignContestResults) &&
+                        project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Utility);
             }
 
             return Element("CONTRACTING_BODY",
@@ -84,9 +84,9 @@ namespace Hilma.Domain.Integrations.General
                 // CA type
                 isUtilitiesNotice
                     ? null
-                    : (organisation.ContractingAuthorityType == ContractingAuthorityType.OtherType ||
-                    organisation.ContractingAuthorityType == ContractingAuthorityType.MaintypeChurch ||
-                    organisation.ContractingAuthorityType == ContractingAuthorityType.MaintypeFarmer
+                    : (organisation.ContractingAuthorityType == OrganisationContractContractingAuthorityType.OtherType ||
+                    organisation.ContractingAuthorityType == OrganisationContractContractingAuthorityType.MaintypeChurch ||
+                    organisation.ContractingAuthorityType == OrganisationContractContractingAuthorityType.MaintypeFarmer
                         ? OtherContractingAuthorityType(organisation)
                         : ElementWithAttribute("CA_TYPE", "VALUE", organisation.ContractingAuthorityType.ToTEDFormat())),
                 // main activity
@@ -96,7 +96,7 @@ namespace Hilma.Domain.Integrations.General
                         : ElementWithAttribute("CE_ACTIVITY", "VALUE", organisation.MainActivityUtilities.ToTEDFormat()))
                     : (organisation.MainActivity == MainActivity.OtherActivity ||
                     organisation.MainActivity == MainActivity.MainactivCulture ||
-                    organisation.ContractingAuthorityType == ContractingAuthorityType.MaintypeFarmer
+                    organisation.ContractingAuthorityType == OrganisationContractContractingAuthorityType.MaintypeFarmer
                         ? OtherMainActivity(organisation)
                         : ElementWithAttribute("CA_ACTIVITY", "VALUE", organisation.MainActivity.ToTEDFormat()))
             );
@@ -161,14 +161,14 @@ namespace Hilma.Domain.Integrations.General
         public XElement OtherContractingAuthorityType(OrganisationContract organisation)
         {
             string elementValue = null;
-            if (organisation.ContractingAuthorityType == ContractingAuthorityType.OtherType)
+            if (organisation.ContractingAuthorityType == OrganisationContractContractingAuthorityType.OtherType)
             {
                 elementValue = organisation.OtherContractingAuthorityType;
-            } else if (organisation.ContractingAuthorityType == ContractingAuthorityType.MaintypeChurch)
+            } else if (organisation.ContractingAuthorityType == OrganisationContractContractingAuthorityType.MaintypeChurch)
             {
                 var translations = _translationProvider.GetDynamicObject(CancellationToken.None).Result;
                 elementValue = translations[_notice.Language.ToLongLang()]["maintype_church"];
-            } else if (organisation.ContractingAuthorityType == ContractingAuthorityType.MaintypeFarmer)
+            } else if (organisation.ContractingAuthorityType == OrganisationContractContractingAuthorityType.MaintypeFarmer)
             {
                 var translations = _translationProvider.GetDynamicObject(CancellationToken.None).Result;
                 elementValue = translations[_notice.Language.ToLongLang()]["maintype_farmer"];
@@ -184,7 +184,7 @@ namespace Hilma.Domain.Integrations.General
             if (organisation.MainActivity == MainActivity.OtherActivity)
             {
                 elementValue = organisation.OtherMainActivity;
-            } else if (organisation.ContractingAuthorityType == ContractingAuthorityType.MaintypeFarmer)
+            } else if (organisation.ContractingAuthorityType == OrganisationContractContractingAuthorityType.MaintypeFarmer)
             {
                 var translations = _translationProvider.GetDynamicObject(CancellationToken.None).Result;
                 elementValue = translations[_notice.Language.ToLongLang()]["mainactivity_agriculture"];
@@ -247,12 +247,12 @@ namespace Hilma.Domain.Integrations.General
                 return null;
 
             // NO_LOT_DIVISION element should not exist on SocialUtilitiesPriorInformation in case of notice not being lotted
-            if ((_notice.Type == NoticeType.SocialUtilitiesPriorInformation ||
-                 _notice.Type == NoticeType.SocialUtilities ||
-                 _notice.Type == NoticeType.SocialUtilitiesContractAward ||
-                 _notice.Type == NoticeType.SocialUtilitiesQualificationSystem ||
-                 _notice.Type == NoticeType.DesignContest ||
-                 _notice.Type == NoticeType.DesignContestResults)
+            if ((_notice.Type == NoticeContractType.SocialUtilitiesPriorInformation ||
+                 _notice.Type == NoticeContractType.SocialUtilities ||
+                 _notice.Type == NoticeContractType.SocialUtilitiesContractAward ||
+                 _notice.Type == NoticeContractType.SocialUtilitiesQualificationSystem ||
+                 _notice.Type == NoticeContractType.DesignContest ||
+                 _notice.Type == NoticeContractType.DesignContestResults)
                 && !lotsInfo.DivisionLots)
             {
                 return null;
@@ -302,10 +302,10 @@ namespace Hilma.Domain.Integrations.General
             var showObjectNumber = (_notice.Type.IsPriorInformation() ||
                 _notice.Type.IsUtilities() ||
                 _notice.Type.IsSocial()) &&
-                _notice.Type != NoticeType.ContractUtilities &&
-                _notice.Type != NoticeType.ContractAwardUtilities &&
-                _notice.Type != NoticeType.SocialConcessionPriorInformation &&
-                _notice.Type != NoticeType.SocialConcessionAward;
+                _notice.Type != NoticeContractType.ContractUtilities &&
+                _notice.Type != NoticeContractType.ContractAwardUtilities &&
+                _notice.Type != NoticeContractType.SocialConcessionPriorInformation &&
+                _notice.Type != NoticeContractType.SocialConcessionAward;
 
             var contract = Element("OBJECT_CONTRACT", showObjectNumber ? new XAttribute("ITEM", 1) : null,
                     projectConfig.Title ? PElement("TITLE", _notice.Project?.Title) : null,
@@ -313,11 +313,11 @@ namespace Hilma.Domain.Integrations.General
                     configuration.MainCpvCode.Code ? CpvCodeElement("CPV_MAIN", new [] { procurementObject.MainCpvCode }) : null,
                     projectConfig.ContractType ? ElementWithAttribute("TYPE_CONTRACT", "CTYPE", _notice.Project?.ContractType.ToTEDFormat()) : null,
                     configuration.ShortDescription ? PElement("SHORT_DESCR", procurementObject.ShortDescription) : null,
-                    _notice.Type != NoticeType.ConcessionAward && _notice.Type != NoticeType.SocialConcessionAward && configuration.TotalValue.Type && _notice.ObjectDescriptions.Any(x => x.AwardContract?.ContractAwarded == ContractAwarded.AwardedContract)
+                    _notice.Type != NoticeContractType.ConcessionAward && _notice.Type != NoticeContractType.SocialConcessionAward && configuration.TotalValue.Type && _notice.ObjectDescriptions.Any(x => x.AwardContract?.ContractAwarded == ContractAwarded.AwardedContract)
                         ? ValueTotal(procurementObject.TotalValue, true) : null,
                     configuration.EstimatedValue.Value && procurementObject.EstimatedValue.Value > 0 ?  Element("VAL_ESTIMATED_TOTAL", attribute: new XAttribute("CURRENCY", _notice.ProcurementObject.EstimatedValue.Currency), value: _notice.ProcurementObject.EstimatedValue.Value) : null,
                     configuration.EstimatedValueCalculationMethod ? PElement("CALCULATION_METHOD", procurementObject.EstimatedValueCalculationMethod) : null,
-                    (_notice.Type == NoticeType.ConcessionAward || _notice.Type == NoticeType.SocialConcessionAward) && configuration.TotalValue.Type && _notice.ObjectDescriptions.Any(x => x.AwardContract?.ContractAwarded == ContractAwarded.AwardedContract)
+                    (_notice.Type == NoticeContractType.ConcessionAward || _notice.Type == NoticeContractType.SocialConcessionAward) && configuration.TotalValue.Type && _notice.ObjectDescriptions.Any(x => x.AwardContract?.ContractAwarded == ContractAwarded.AwardedContract)
                         ? ValueTotal(procurementObject.TotalValue, true) : null,
                     LotDivision(_notice.LotsInfo),
                     ObjectDescriptions(_notice.ObjectDescriptions),
@@ -358,8 +358,8 @@ namespace Hilma.Domain.Integrations.General
                 return null;
 
             var awardCriteriaAttribute = config.DisagreeAwardCriteriaToBePublished
-                ? _notice.Type == NoticeType.ExAnte // if ex ante notice...
-                    ? _notice.Project?.ProcurementCategory == ProcurementCategory.Utility
+                ? _notice.Type == NoticeContractType.ExAnte // if ex ante notice...
+                    ? _notice.Project?.ProcurementCategory == ProcurementProjectContractProcurementCategory.Utility
                         ? new XAttribute("PUBLICATION",
                             objectDescription.DisagreeAwardCriteriaToBePublished
                                 ? "NO"
@@ -369,7 +369,7 @@ namespace Hilma.Domain.Integrations.General
                         objectDescription.DisagreeAwardCriteriaToBePublished ? "NO" : "YES") // others just obey config
                 : null; 
 
-            var hideItemNumber = _notice.Type == NoticeType.DesignContest || _notice.Type == NoticeType.DesignContestResults;
+            var hideItemNumber = _notice.Type == NoticeContractType.DesignContest || _notice.Type == NoticeContractType.DesignContestResults;
 
             return Element("OBJECT_DESCR", !hideItemNumber ? new XAttribute("ITEM", index + 1) : null,
                 config.Title && _notice.LotsInfo.DivisionLots ? PElement("TITLE", objectDescription.Title) : null,
@@ -378,7 +378,7 @@ namespace Hilma.Domain.Integrations.General
                 config.NutsCodes ? NutsCodes(objectDescription.NutsCodes) : null,
                 config.MainsiteplaceWorksDelivery ? PElement("MAIN_SITE", objectDescription.MainsiteplaceWorksDelivery) : null,
                 config.DescrProcurement ? PElement("SHORT_DESCR", objectDescription.DescrProcurement) : null,
-                _notice.Type == NoticeType.ExAnte
+                _notice.Type == NoticeContractType.ExAnte
                     ? Element(DirectiveSelector(), objectDescription.AwardCriteria?.CriterionTypes != AwardCriterionType.Undefined
                         ? Element("AC", awardCriteriaAttribute, AwardCriteriaExAnte(objectDescription))
                         : null)
@@ -598,15 +598,15 @@ namespace Hilma.Domain.Integrations.General
         /// <returns></returns>
         public string DirectiveSelector()
         {
-            if (_notice.Project.ProcurementCategory == ProcurementCategory.Defence)
+            if (_notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Defence)
             {
                 return "DIRECTIVE_2009_81_EC";
             }
-            else if (_notice.Project.ProcurementCategory == ProcurementCategory.Lisence)
+            else if (_notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Lisence)
             {
                 return "DIRECTIVE_2014_23_EU";
             }
-            else if (_notice.Project.ProcurementCategory == ProcurementCategory.Utility)
+            else if (_notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Utility)
             {
                 return "DIRECTIVE_2014_25_EU";
             }
@@ -627,7 +627,7 @@ namespace Hilma.Domain.Integrations.General
                 yield break;
             }
 
-            if (_notice.Project.ProcurementCategory == ProcurementCategory.Defence)
+            if (_notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Defence)
             {
                 if (objectDescription.AwardCriteria?.CriterionTypes == AwardCriterionType.LowestPrice)
                 {
@@ -641,7 +641,7 @@ namespace Hilma.Domain.Integrations.General
                     }
                 }
             }
-            else if (_notice.Project.ProcurementCategory == ProcurementCategory.Lisence && objectDescription.AwardCriteria?.Criterion != null )
+            else if (_notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Lisence && objectDescription.AwardCriteria?.Criterion != null )
             {
                 foreach (var criteria in objectDescription.AwardCriteria.Criterion)
                 {
@@ -945,13 +945,13 @@ namespace Hilma.Domain.Integrations.General
             // IV.1.8
             if (configuration.ProcurementGovernedByGPA)
             {
-                if((_notice.Type == NoticeType.Concession || _notice.Type == NoticeType.ConcessionAward) && _notice.Project.ContractType == ContractType.Works)
+                if((_notice.Type == NoticeContractType.Concession || _notice.Type == NoticeContractType.ConcessionAward) && _notice.Project.ContractType == ContractType.Works)
                 {
                     procedure.Add(_notice.ProcedureInformation.ProcurementGovernedByGPA ?
                         ElementWithAttribute("CONTRACT_COVERED_GPA", "CTYPE", "WORKS") :
                         ElementWithAttribute("NO_CONTRACT_COVERED_GPA", "CTYPE", "WORKS"));
                 }
-                if(_notice.Type != NoticeType.Concession && _notice.Type != NoticeType.ConcessionAward)
+                if(_notice.Type != NoticeContractType.Concession && _notice.Type != NoticeContractType.ConcessionAward)
                 {
                     procedure.Add(_notice.ProcedureInformation.ProcurementGovernedByGPA ?
                         Element("CONTRACT_COVERED_GPA") :
@@ -962,7 +962,7 @@ namespace Hilma.Domain.Integrations.General
             // IV.1.9
             if (configuration.CriteriaForEvaluationOfProjects)
             {
-                if (configuration.DisagreeCriteriaForEvaluationOfProjectsPublish && _notice.Project.ProcurementCategory == ProcurementCategory.Utility)
+                if (configuration.DisagreeCriteriaForEvaluationOfProjectsPublish && _notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Utility)
                 {
                     procedure.Add(PElementWithAttribute("CRITERIA_EVALUATION", "PUBLICATION", _notice.ProcedureInformation.DisagreeCriteriaForEvaluationOfProjectsPublish ? "NO" : "YES", _notice.ProcedureInformation.CriteriaForEvaluationOfProjects));
                 }
@@ -998,8 +998,8 @@ namespace Hilma.Domain.Integrations.General
             }
             if (_configuration.TenderingInformation.EstimatedDateOfInvitations)
             {
-                if((type != ProcedureType.ProctypeOpen && _notice.Type != NoticeType.DesignContest) ||
-                (_notice.Type == NoticeType.DesignContest && procedureInformation.ContestType == ContestType.TypeRestricted))
+                if((type != ProcedureType.ProctypeOpen && _notice.Type != NoticeContractType.DesignContest) ||
+                (_notice.Type == NoticeContractType.DesignContest && procedureInformation.ContestType == ContestType.TypeRestricted))
                 {
                     procedure.Add(DateElement("DATE_DISPATCH_INVITATIONS", _notice.TenderingInformation.EstimatedDateOfInvitations));
                 }
@@ -1135,7 +1135,7 @@ namespace Hilma.Domain.Integrations.General
             }
             else
             {
-                if (_notice.Project.ProcurementCategory == ProcurementCategory.Utility)
+                if (_notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Utility)
                 {
                     result.Add(Element("AWARDED_PRIZE",
                         DateElement("DATE_DECISION_JURY", results.DateOfJuryDecision),
@@ -1197,10 +1197,10 @@ namespace Hilma.Domain.Integrations.General
                 var noAwardedContract = awardContract.NoAwardedContract;
                 var awardedContractConfig = _configuration.ObjectDescriptions.AwardContract.AwardedContract;
 
-                var isExante = _notice.Type == NoticeType.ExAnte;
+                var isExante = _notice.Type == NoticeContractType.ExAnte;
                 return Element("AWARD_CONTRACT", new XAttribute("ITEM",i + 1),
-                    _notice.Type != NoticeType.ConcessionAward &&
-                    _notice.Type != NoticeType.SocialConcessionAward ?
+                    _notice.Type != NoticeContractType.ConcessionAward &&
+                    _notice.Type != NoticeContractType.SocialConcessionAward ?
                         Element("CONTRACT_NO", awardedContract?.ContractNumber) : null,
                     _notice.LotsInfo.DivisionLots ? Element("LOT_NO", lot.LotNumber) : null,
                     awardedContractConfig.ContractTitle ? PElement("TITLE", awardedContract?.ContractTitle) : null,
@@ -1210,7 +1210,7 @@ namespace Hilma.Domain.Integrations.General
                         DateElement("DATE_CONCLUSION_CONTRACT", awardedContract?.ConclusionDate <= DateTime.Now ? awardedContract.ConclusionDate : DateTime.Now),
                         isExante
                             ? null
-                            : Element("TENDERS", awardedContractConfig.NumberOfTenders?.DisagreeTenderInformationToBePublished ?? false && _notice.Project?.ProcurementCategory == ProcurementCategory.Utility
+                            : Element("TENDERS", awardedContractConfig.NumberOfTenders?.DisagreeTenderInformationToBePublished ?? false && _notice.Project?.ProcurementCategory == ProcurementProjectContractProcurementCategory.Utility
                                 ? new XAttribute("PUBLICATION", awardedContract?.NumberOfTenders?.DisagreeTenderInformationToBePublished ?? false ? "NO" : "YES")
                                 : null,
                                 Element("NB_TENDERS_RECEIVED", awardedContract?.NumberOfTenders?.Total),
@@ -1219,8 +1219,8 @@ namespace Hilma.Domain.Integrations.General
                                 Element("NB_TENDERS_RECEIVED_NON_EU", awardedContract?.NumberOfTenders?.NonEu ?? 0),
                                 Element("NB_TENDERS_RECEIVED_EMEANS", awardedContract?.NumberOfTenders?.Electronic ?? 0)),
                         Element("CONTRACTORS",
-                            _notice.Type == NoticeType.ExAnte
-                                ? _notice.Project.ProcurementCategory == ProcurementCategory.Utility
+                            _notice.Type == NoticeContractType.ExAnte
+                                ? _notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Utility
                                     ? new XAttribute("PUBLICATION", awardedContract?.DisagreeContractorInformationToBePublished ?? false ? "NO" : "YES")
                                     : null
                                 : awardedContractConfig.DisagreeContractorInformationToBePublished
@@ -1228,20 +1228,20 @@ namespace Hilma.Domain.Integrations.General
                                     : null,
                             awardedContract.Contractors.Count > 1 ?
                                 Element("AWARDED_TO_GROUP") :
-                                _notice.Type != NoticeType.SocialContractAward &&
-                                _notice.Type != NoticeType.SocialUtilitiesContractAward &&
-                                _notice.Type != NoticeType.SocialConcessionAward ?
+                                _notice.Type != NoticeContractType.SocialContractAward &&
+                                _notice.Type != NoticeContractType.SocialUtilitiesContractAward &&
+                                _notice.Type != NoticeContractType.SocialConcessionAward ?
                                     Element("NO_AWARDED_TO_GROUP") :
                                     null,
                             awardedContract.Contractors.Select((contractor, a) =>
                                 Element("CONTRACTOR",
                                     ADDRS5(contractor),
-                                    contractor.IsSmallMediumEnterprise ? Element("SME") : _notice.Type != NoticeType.SocialContractAward && _notice.Type != NoticeType.SocialUtilitiesContractAward && _notice.Type != NoticeType.SocialConcessionAward ? Element("NO_SME") : null
+                                    contractor.IsSmallMediumEnterprise ? Element("SME") : _notice.Type != NoticeContractType.SocialContractAward && _notice.Type != NoticeContractType.SocialUtilitiesContractAward && _notice.Type != NoticeContractType.SocialConcessionAward ? Element("NO_SME") : null
                                 )
                             )
                         ),
                         Element("VALUES", awardedContractConfig.FinalTotalValue?.DisagreeToBePublished ?? false 
-                                ? !isExante || _notice.Project.ProcurementCategory == ProcurementCategory.Utility
+                                ? !isExante || _notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Utility
                                     ? new XAttribute("PUBLICATION", awardedContract.FinalTotalValue?.DisagreeToBePublished == false ? "YES" : "NO")
                                     : null
                                 : null,

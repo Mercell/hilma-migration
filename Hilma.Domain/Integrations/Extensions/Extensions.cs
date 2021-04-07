@@ -1,9 +1,9 @@
-using Hilma.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml;
+using Hilma.Domain.Data.Read;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

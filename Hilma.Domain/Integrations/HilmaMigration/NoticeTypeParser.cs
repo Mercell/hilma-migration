@@ -1,126 +1,126 @@
-using Hilma.Domain.Enums;
+using Hilma.Domain.Data.Read;
 
 namespace Hilma.Domain.Integrations.HilmaMigration
 {
     public class NoticeTypeParser
     {
-        public static NoticeType ParseNoticeType(INoticeImportModel editaNotice, out bool isCorrigendum, out bool isCancelled)
+        public static NoticeContractType ParseNoticeType(INoticeImportModel editaNotice, out bool isCorrigendum, out bool isCancelled)
         {
             isCorrigendum = false;
             isCancelled = false;
-            NoticeType noticeType;
+            NoticeContractType noticeType;
             switch (editaNotice.FormNumber)
             {
                 case "1":
                     if (editaNotice.NoticeType == "PRI_REDUCING_TIME_LIMITS".ToLower())
                     {
-                        noticeType = NoticeType.PriorInformationReduceTimeLimits;
+                        noticeType = NoticeContractType.PriorInformationReduceTimeLimits;
                     }
                     else
                     {
-                        noticeType = NoticeType.PriorInformation;
+                        noticeType = NoticeContractType.PriorInformation;
                     }
                     break;
                 case "2":
-                    noticeType = NoticeType.Contract;
+                    noticeType = NoticeContractType.Contract;
                     break;
                 case "3":
-                    noticeType = NoticeType.ContractAward;
+                    noticeType = NoticeContractType.ContractAward;
                     break;
                 case "4":
-                    noticeType = NoticeType.PeriodicIndicativeUtilities;
+                    noticeType = NoticeContractType.PeriodicIndicativeUtilities;
                     break;
                 case "5":
-                    noticeType = NoticeType.ContractUtilities;
+                    noticeType = NoticeContractType.ContractUtilities;
                     break;
                 case "6":
-                    noticeType = NoticeType.ContractAwardUtilities;
+                    noticeType = NoticeContractType.ContractAwardUtilities;
                     break;
                 case "14":
-                    noticeType = NoticeType.Undefined;
+                    noticeType = NoticeContractType.Undefined;
                     isCorrigendum = true;
                     break;
                 case "15":
-                    noticeType = NoticeType.ExAnte;
+                    noticeType = NoticeContractType.ExAnte;
                     break;
                 case "16":
-                    noticeType = NoticeType.DefencePriorInformation;
+                    noticeType = NoticeContractType.DefencePriorInformation;
                     break;
                 case "17":
-                    noticeType = NoticeType.DefenceContract;
+                    noticeType = NoticeContractType.DefenceContract;
                     break;
                 case "18":
-                    noticeType = NoticeType.DefenceContractAward;
+                    noticeType = NoticeContractType.DefenceContractAward;
                     break;
                 case "20":
-                    noticeType = NoticeType.Modification;
+                    noticeType = NoticeContractType.Modification;
                     break;
                 case "24":
-                    noticeType = NoticeType.Concession;
+                    noticeType = NoticeContractType.Concession;
                     break;
                 case "25":
-                    noticeType = NoticeType.ConcessionAward;
+                    noticeType = NoticeContractType.ConcessionAward;
                     break;
                 case "50":
-                    noticeType = NoticeType.NationalAgricultureContract;
+                    noticeType = NoticeContractType.NationalAgricultureContract;
                     break;
                 case "51":
-                    noticeType = NoticeType.NationalAgricultureContract;
+                    noticeType = NoticeContractType.NationalAgricultureContract;
                     break;
                 case "99":
                     switch (editaNotice.NoticeType)
                     {
                         case "domestic_contract":
-                            noticeType = NoticeType.NationalContract;
+                            noticeType = NoticeContractType.NationalContract;
                             break;
                         case "request_for_information":
-                            noticeType = NoticeType.NationalPriorInformation;
+                            noticeType = NoticeContractType.NationalPriorInformation;
                             break;
                         case "domestic_discontinued_notice":
                         case "procurement_discontinued":
-                            noticeType = NoticeType.NationalContract;
+                            noticeType = NoticeContractType.NationalContract;
                             isCancelled = true;
                             break;
                         case "corrigendum_notice":
-                            noticeType = NoticeType.NationalContract;
+                            noticeType = NoticeContractType.NationalContract;
                             isCorrigendum = true;
                             break;
                         default:
-                            noticeType = NoticeType.NationalContract;
+                            noticeType = NoticeContractType.NationalContract;
                             break;
                     }
                     break;
                 case "91":
-                    noticeType = NoticeType.NationalDefenceContract;
+                    noticeType = NoticeContractType.NationalDefenceContract;
                     break;
                 case "92":
-                    noticeType = NoticeType.NationalTransparency;
+                    noticeType = NoticeContractType.NationalTransparency;
                     break;
                 case "93":
-                    noticeType = NoticeType.NationalDirectAward;
+                    noticeType = NoticeContractType.NationalDirectAward;
                     break;
                 case "21":
                     switch (editaNotice.NoticeType)
                     {
                         case "contract":
-                            noticeType = NoticeType.SocialContract;
+                            noticeType = NoticeContractType.SocialContract;
                             break;
                         case "award_contract":
-                            noticeType = NoticeType.SocialContractAward;
+                            noticeType = NoticeContractType.SocialContractAward;
                             break;
                         case "pri_only":
-                            noticeType = NoticeType.SocialPriorInformation;
+                            noticeType = NoticeContractType.SocialPriorInformation;
                             break;
                         default:
-                            noticeType = NoticeType.Undefined;
+                            noticeType = NoticeContractType.Undefined;
                             break;
                     }
                     break;
                 case "22":
-                    noticeType = NoticeType.SocialUtilities;
+                    noticeType = NoticeContractType.SocialUtilities;
                     break;
                 default:
-                    noticeType = NoticeType.Undefined;
+                    noticeType = NoticeContractType.Undefined;
                     break;
             }
             return noticeType;

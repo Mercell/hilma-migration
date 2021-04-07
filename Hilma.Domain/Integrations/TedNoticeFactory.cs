@@ -1,11 +1,10 @@
 using System;
 using System.Xml.Linq;
 using Hilma.Domain.Configuration;
-using Hilma.Domain.DataContracts;
+using Hilma.Domain.Data.Read;
 using Hilma.Domain.Enums;
 using Hilma.Domain.Integrations.Defence;
 using Hilma.Domain.Integrations.General;
-using Newtonsoft.Json.Linq;
 
 namespace Hilma.Domain.Integrations
 {
@@ -63,83 +62,83 @@ namespace Hilma.Domain.Integrations
 
             switch (_notice.Type)
             {
-                case NoticeType.PriorInformation:
-                case NoticeType.PriorInformationReduceTimeLimits:
+                case NoticeContractType.PriorInformation:
+                case NoticeContractType.PriorInformationReduceTimeLimits:
                     var f01Factory = new F01Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f01Factory.CreateForm();
-                case NoticeType.Contract:
+                case NoticeContractType.Contract:
                     var f02Factory = new F02Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f02Factory.CreateForm();
-                case NoticeType.Undefined:
+                case NoticeContractType.Undefined:
                     break;
-                case NoticeType.ContractAward:
+                case NoticeContractType.ContractAward:
                     var f03Factory = new F03Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f03Factory.CreateForm();
-                case NoticeType.PeriodicIndicativeUtilities:
-                case NoticeType.PeriodicIndicativeUtilitiesReduceTimeLimits:
+                case NoticeContractType.PeriodicIndicativeUtilities:
+                case NoticeContractType.PeriodicIndicativeUtilitiesReduceTimeLimits:
                     var f04Factory = new F04Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f04Factory.CreateForm();
-                case NoticeType.ContractUtilities:
+                case NoticeContractType.ContractUtilities:
                     var f05Factory = new F05Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f05Factory.CreateForm();
-                case NoticeType.ContractAwardUtilities:
+                case NoticeContractType.ContractAwardUtilities:
                     var f06Factory = new F06Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f06Factory.CreateForm();
-                case NoticeType.QualificationSystemUtilities:
+                case NoticeContractType.QualificationSystemUtilities:
                     break;
-                case NoticeType.BuyerProfile:
+                case NoticeContractType.BuyerProfile:
                     break;
-                case NoticeType.DefenceSimplifiedContract:
+                case NoticeContractType.DefenceSimplifiedContract:
                     break;
-                case NoticeType.DefenceConcession:
+                case NoticeContractType.DefenceConcession:
                     break;
-                case NoticeType.DefenceContractConcessionnaire:
+                case NoticeContractType.DefenceContractConcessionnaire:
                     break;
-                case NoticeType.DesignContest:
+                case NoticeContractType.DesignContest:
                     var f12Factory = new F12Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f12Factory.CreateForm();
-                case NoticeType.DesignContestResults:
+                case NoticeContractType.DesignContestResults:
                     var f13Factory = new F13Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f13Factory.CreateForm();
-                case NoticeType.ExAnte:
+                case NoticeContractType.ExAnte:
                     var f15factory = new F15Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f15factory.CreateForm();
-                case NoticeType.DefencePriorInformation:
+                case NoticeContractType.DefencePriorInformation:
                     var f16Factory = new F16Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f16Factory.CreateForm();
-                case NoticeType.DefenceContract:
+                case NoticeContractType.DefenceContract:
                     var f17Factory = new F17Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f17Factory.CreateForm();
-                case NoticeType.DefenceContractAward:
+                case NoticeContractType.DefenceContractAward:
                     return new F18Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider).CreateForm();
-                case NoticeType.DefenceContractSub:
+                case NoticeContractType.DefenceContractSub:
                     break;
-                case NoticeType.Modification:
+                case NoticeContractType.Modification:
                     var f20Factory = new F20Factory(_notice, _parent, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail);
                     return f20Factory.CreateForm();
-                case NoticeType.SocialPriorInformation:
-                case NoticeType.SocialContract:
-                case NoticeType.SocialContractAward:
+                case NoticeContractType.SocialPriorInformation:
+                case NoticeContractType.SocialContract:
+                case NoticeContractType.SocialContractAward:
                     var f21Factory = new F21Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f21Factory.CreateForm();
-                case NoticeType.SocialUtilities:
-                case NoticeType.SocialUtilitiesPriorInformation:
-                case NoticeType.SocialUtilitiesContractAward:
-                case NoticeType.SocialUtilitiesQualificationSystem:
+                case NoticeContractType.SocialUtilities:
+                case NoticeContractType.SocialUtilitiesPriorInformation:
+                case NoticeContractType.SocialUtilitiesContractAward:
+                case NoticeContractType.SocialUtilitiesQualificationSystem:
                     var f22Factory = new F22Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f22Factory.CreateForm();
-                case NoticeType.SocialConcessionPriorInformation:
-                case NoticeType.SocialConcessionAward:
+                case NoticeContractType.SocialConcessionPriorInformation:
+                case NoticeContractType.SocialConcessionAward:
                     var f23Factory = new F23Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f23Factory.CreateForm();
-                case NoticeType.Concession:
+                case NoticeContractType.Concession:
                     var f24Factory = new F24Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f24Factory.CreateForm();
-                case NoticeType.ConcessionAward:
+                case NoticeContractType.ConcessionAward:
                     var f25Factory = new F25Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                     return f25Factory.CreateForm();
-                case NoticeType.DpsAward:
-                    if(_notice.Project.ProcurementCategory == ProcurementCategory.Public)
+                case NoticeContractType.DpsAward:
+                    if(_notice.Project.ProcurementCategory == ProcurementProjectContractProcurementCategory.Public)
                     {
                         var dpsAward3 = new F03Factory(_notice, _eSenderLogin, _tedSenderOrganisation, _tedContactEmail, _translationProvider);
                         return dpsAward3.CreateForm();

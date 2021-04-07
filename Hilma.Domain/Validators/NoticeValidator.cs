@@ -8,7 +8,7 @@ using System.Xml.Linq;
 using System.Xml.Schema;
 using AutoMapper;
 using Hilma.Domain.Configuration;
-using Hilma.Domain.DataContracts;
+using Hilma.Domain.Data.Read;
 using Hilma.Domain.Entities;
 using Hilma.Domain.Enums;
 using Hilma.Domain.Extensions;

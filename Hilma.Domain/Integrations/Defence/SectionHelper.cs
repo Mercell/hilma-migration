@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Xml.Linq;
 using Hilma.Domain.Configuration;
-using Hilma.Domain.DataContracts;
+using Hilma.Domain.Data.Read;
 using Hilma.Domain.Entities;
 using Hilma.Domain.Enums;
 using Hilma.Domain.Extensions;

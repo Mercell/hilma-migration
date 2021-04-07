@@ -1,5 +1,5 @@
 using System;
-using Hilma.Domain.DataContracts;
+using Hilma.Domain.Data.Read;
 using Hilma.Domain.Entities;
 using Hilma.Domain.Enums;
 using Hilma.Domain.Integrations.Extensions;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Hilma.Domain.Configuration;
 using System.Threading;
+using Hilma.Domain.Data.Read;
 
 namespace Hilma.Domain.Integrations.Defence
 {

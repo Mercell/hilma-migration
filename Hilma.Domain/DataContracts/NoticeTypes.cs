@@ -1,5 +1,5 @@
 using Hilma.Domain.Attributes;
-using Hilma.Domain.Enums;
+using Hilma.Domain.Data.Read;
 
 namespace Hilma.Domain.DataContracts
 {
@@ -7,253 +7,253 @@ namespace Hilma.Domain.DataContracts
     /// Extension class for notice types
     /// </summary>
     [Configuration]
-    public class NoticeTypes
+    public class NoticeContractTypes
     {
         /// <summary>
         /// The order is important and shown in this order in UI.
         /// </summary>
-        public NoticeType[] SupportNoticeTypes { get; } =
+        public NoticeContractType[] SupportNoticeContractTypes { get; } =
         {
-            NoticeType.PriorInformation,
-            NoticeType.PriorInformationReduceTimeLimits,
-            NoticeType.Contract,
-            NoticeType.ContractAward,
+            NoticeContractType.PriorInformation,
+            NoticeContractType.PriorInformationReduceTimeLimits,
+            NoticeContractType.Contract,
+            NoticeContractType.ContractAward,
 
-            NoticeType.PeriodicIndicativeUtilities,
-            NoticeType.PeriodicIndicativeUtilitiesReduceTimeLimits,
-            NoticeType.ContractUtilities,
-            NoticeType.ContractAwardUtilities,
+            NoticeContractType.PeriodicIndicativeUtilities,
+            NoticeContractType.PeriodicIndicativeUtilitiesReduceTimeLimits,
+            NoticeContractType.ContractUtilities,
+            NoticeContractType.ContractAwardUtilities,
 
-            //NoticeType.DesignContest,
-            //NoticeType.DesignContestResults,
+            //NoticeContractType.DesignContest,
+            //NoticeContractType.DesignContestResults,
 
-            NoticeType.ExAnte,
+            NoticeContractType.ExAnte,
 
-            NoticeType.DefencePriorInformation,
-            NoticeType.DefenceContract,
-            NoticeType.DefenceContractAward,
+            NoticeContractType.DefencePriorInformation,
+            NoticeContractType.DefenceContract,
+            NoticeContractType.DefenceContractAward,
 
-            NoticeType.Modification,
+            NoticeContractType.Modification,
 
-            NoticeType.SocialPriorInformation,
-            NoticeType.SocialContract,
-            NoticeType.SocialContractAward,
+            NoticeContractType.SocialPriorInformation,
+            NoticeContractType.SocialContract,
+            NoticeContractType.SocialContractAward,
 
-            NoticeType.SocialUtilitiesPriorInformation,
-            NoticeType.SocialUtilitiesQualificationSystem,
-            NoticeType.SocialUtilities,
-            NoticeType.SocialUtilitiesContractAward,
+            NoticeContractType.SocialUtilitiesPriorInformation,
+            NoticeContractType.SocialUtilitiesQualificationSystem,
+            NoticeContractType.SocialUtilities,
+            NoticeContractType.SocialUtilitiesContractAward,
 
-            NoticeType.SocialConcessionPriorInformation,
-            NoticeType.SocialConcessionAward,
+            NoticeContractType.SocialConcessionPriorInformation,
+            NoticeContractType.SocialConcessionAward,
 
-            NoticeType.Concession,
-            NoticeType.ConcessionAward,
+            NoticeContractType.Concession,
+            NoticeContractType.ConcessionAward,
 
             // Nationals below
-            NoticeType.NationalPriorInformation,
-            NoticeType.NationalContract, 
-            NoticeType.NationalSmallValueProcurement,
-            NoticeType.NationalSmallValueProcurementSocial,
+            NoticeContractType.NationalPriorInformation,
+            NoticeContractType.NationalContract, 
+            NoticeContractType.NationalSmallValueProcurement,
+            NoticeContractType.NationalSmallValueProcurementSocial,
 
-            NoticeType.NationalDirectAward,
-            NoticeType.NationalDesignContest,
+            NoticeContractType.NationalDirectAward,
+            NoticeContractType.NationalDesignContest,
 
-            NoticeType.NationalDefencePriorInformation,
-            NoticeType.NationalDefenceContract,
+            NoticeContractType.NationalDefencePriorInformation,
+            NoticeContractType.NationalDefenceContract,
 
-            NoticeType.NationalAgricultureContract,
-            NoticeType.NationalTransparency
+            NoticeContractType.NationalAgricultureContract,
+            NoticeContractType.NationalTransparency
         };
 
-        public NoticeType[] PublicNotices { get; } = new[] {
-            NoticeType.PriorInformation,
-            NoticeType.Contract,
-            NoticeType.ContractAward,
-            NoticeType.Modification,
-            NoticeType.SocialPriorInformation
+        public NoticeContractType[] PublicNotices { get; } = new[] {
+            NoticeContractType.PriorInformation,
+            NoticeContractType.Contract,
+            NoticeContractType.ContractAward,
+            NoticeContractType.Modification,
+            NoticeContractType.SocialPriorInformation
         };
 
         /// <summary>
         /// National notices
         /// </summary>
-        public NoticeType[] NationalNotices { get; } = new[] {
-            NoticeType.NationalPriorInformation,
-            NoticeType.NationalContract,
-            NoticeType.NationalSmallValueProcurement,
-            NoticeType.NationalSmallValueProcurementSocial,
-            NoticeType.NationalDesignContest,
-            NoticeType.NationalDirectAward,
-            NoticeType.NationalDefencePriorInformation,
-            NoticeType.NationalDefenceContract,
-            NoticeType.NationalAgricultureContract,
-            NoticeType.NationalTransparency
+        public NoticeContractType[] NationalNotices { get; } = new[] {
+            NoticeContractType.NationalPriorInformation,
+            NoticeContractType.NationalContract,
+            NoticeContractType.NationalSmallValueProcurement,
+            NoticeContractType.NationalSmallValueProcurementSocial,
+            NoticeContractType.NationalDesignContest,
+            NoticeContractType.NationalDirectAward,
+            NoticeContractType.NationalDefencePriorInformation,
+            NoticeContractType.NationalDefenceContract,
+            NoticeContractType.NationalAgricultureContract,
+            NoticeContractType.NationalTransparency
         };
 
         /// <summary>
         /// Prior information notice types
         /// </summary>
-        public NoticeType[] PriorInformationNotices { get; } = new[] {
-            NoticeType.PriorInformation,
-            NoticeType.PriorInformationReduceTimeLimits,
-            NoticeType.PeriodicIndicativeUtilities,
-            NoticeType.PeriodicIndicativeUtilitiesReduceTimeLimits,
-            NoticeType.DefencePriorInformation,
-            NoticeType.SocialPriorInformation,
-            NoticeType.SocialUtilitiesPriorInformation,
-            NoticeType.NationalPriorInformation
+        public NoticeContractType[] PriorInformationNotices { get; } = new[] {
+            NoticeContractType.PriorInformation,
+            NoticeContractType.PriorInformationReduceTimeLimits,
+            NoticeContractType.PeriodicIndicativeUtilities,
+            NoticeContractType.PeriodicIndicativeUtilitiesReduceTimeLimits,
+            NoticeContractType.DefencePriorInformation,
+            NoticeContractType.SocialPriorInformation,
+            NoticeContractType.SocialUtilitiesPriorInformation,
+            NoticeContractType.NationalPriorInformation
         };
 
         /// <summary>
         /// Contract notice types
         /// </summary>
-        public NoticeType[] ContractNotices { get; } = new[] {
-            NoticeType.Contract,
-            NoticeType.ContractUtilities,
-            NoticeType.DefenceContract,
-            NoticeType.SocialContract,
-            NoticeType.SocialUtilities,
-            NoticeType.NationalContract,
-            NoticeType.NationalSmallValueProcurement,
-            NoticeType.NationalSmallValueProcurementSocial,
-            NoticeType.NationalAgricultureContract,
-            NoticeType.SocialUtilitiesQualificationSystem,
-            NoticeType.Concession
+        public NoticeContractType[] ContractNotices { get; } = new[] {
+            NoticeContractType.Contract,
+            NoticeContractType.ContractUtilities,
+            NoticeContractType.DefenceContract,
+            NoticeContractType.SocialContract,
+            NoticeContractType.SocialUtilities,
+            NoticeContractType.NationalContract,
+            NoticeContractType.NationalSmallValueProcurement,
+            NoticeContractType.NationalSmallValueProcurementSocial,
+            NoticeContractType.NationalAgricultureContract,
+            NoticeContractType.SocialUtilitiesQualificationSystem,
+            NoticeContractType.Concession
         };
 
         /// <summary>
         /// Contract Award notice types
         /// </summary>
-        public NoticeType[] ContractAwardNotices { get; } = new[] {
-            NoticeType.ContractAward,
-            NoticeType.ContractAwardUtilities,
-            NoticeType.SocialContractAward,
-            NoticeType.DefenceContractAward,
-            NoticeType.ConcessionAward,
-            NoticeType.SocialUtilitiesContractAward,
-            NoticeType.DpsAward,
-            NoticeType.SocialConcessionAward,
-            NoticeType.NationalDirectAward
+        public NoticeContractType[] ContractAwardNotices { get; } = new[] {
+            NoticeContractType.ContractAward,
+            NoticeContractType.ContractAwardUtilities,
+            NoticeContractType.SocialContractAward,
+            NoticeContractType.DefenceContractAward,
+            NoticeContractType.ConcessionAward,
+            NoticeContractType.SocialUtilitiesContractAward,
+            NoticeContractType.DpsAward,
+            NoticeContractType.SocialConcessionAward,
+            NoticeContractType.NationalDirectAward
         };
 
         /// <summary>
         /// Utilities notice types
         /// </summary>
-        public NoticeType[] UtilitiesNotices { get; } = new[] {
-            NoticeType.PeriodicIndicativeUtilities,
-            NoticeType.PeriodicIndicativeUtilitiesReduceTimeLimits,
-            NoticeType.ContractAwardUtilities,
-            NoticeType.ContractUtilities,
-            NoticeType.QualificationSystemUtilities,
-            NoticeType.SocialUtilities,
-            NoticeType.SocialUtilitiesPriorInformation,
-            NoticeType.SocialUtilitiesContractAward,
-            NoticeType.SocialUtilitiesQualificationSystem
+        public NoticeContractType[] UtilitiesNotices { get; } = new[] {
+            NoticeContractType.PeriodicIndicativeUtilities,
+            NoticeContractType.PeriodicIndicativeUtilitiesReduceTimeLimits,
+            NoticeContractType.ContractAwardUtilities,
+            NoticeContractType.ContractUtilities,
+            NoticeContractType.QualificationSystemUtilities,
+            NoticeContractType.SocialUtilities,
+            NoticeContractType.SocialUtilitiesPriorInformation,
+            NoticeContractType.SocialUtilitiesContractAward,
+            NoticeContractType.SocialUtilitiesQualificationSystem
         };
 
         /// <summary>
         /// Social notice types
         /// </summary>
-        public NoticeType[] SocialNotices { get; } = new[] {
-            NoticeType.SocialContract,
-            NoticeType.SocialUtilities,
-            NoticeType.SocialPriorInformation,
-            NoticeType.SocialContractAward,
-            NoticeType.SocialConcessionPriorInformation,
-            NoticeType.SocialConcessionAward,
-            NoticeType.SocialUtilitiesPriorInformation,
-            NoticeType.SocialUtilitiesContractAward,
-            NoticeType.SocialUtilitiesQualificationSystem,
-            NoticeType.NationalSmallValueProcurementSocial
+        public NoticeContractType[] SocialNotices { get; } = new[] {
+            NoticeContractType.SocialContract,
+            NoticeContractType.SocialUtilities,
+            NoticeContractType.SocialPriorInformation,
+            NoticeContractType.SocialContractAward,
+            NoticeContractType.SocialConcessionPriorInformation,
+            NoticeContractType.SocialConcessionAward,
+            NoticeContractType.SocialUtilitiesPriorInformation,
+            NoticeContractType.SocialUtilitiesContractAward,
+            NoticeContractType.SocialUtilitiesQualificationSystem,
+            NoticeContractType.NationalSmallValueProcurementSocial
         };
 
         /// <summary>
         /// Defence notices
         /// </summary>
-        public NoticeType[] DefenceNotices { get; } = new[] {
-            NoticeType.DefenceConcession,
-            NoticeType.DefencePriorInformation,
-            NoticeType.DefenceContract,
-            NoticeType.DefenceContractAward,
-            NoticeType.DefenceContractConcessionnaire,
-            NoticeType.DefenceContractSub,
-            NoticeType.DefenceSimplifiedContract,
-            NoticeType.NationalDefencePriorInformation,
-            NoticeType.NationalDefenceContract
+        public NoticeContractType[] DefenceNotices { get; } = new[] {
+            NoticeContractType.DefenceConcession,
+            NoticeContractType.DefencePriorInformation,
+            NoticeContractType.DefenceContract,
+            NoticeContractType.DefenceContractAward,
+            NoticeContractType.DefenceContractConcessionnaire,
+            NoticeContractType.DefenceContractSub,
+            NoticeContractType.DefenceSimplifiedContract,
+            NoticeContractType.NationalDefencePriorInformation,
+            NoticeContractType.NationalDefenceContract
         };
 
         /// <summary>
         /// 2014/24/EU
         /// </summary>
-        public NoticeType[] EuPublicCategories { get; } = new[] {
-            NoticeType.PriorInformation,
-            NoticeType.PriorInformationReduceTimeLimits,
-            NoticeType.Contract,
-            NoticeType.ContractAward,
-            NoticeType.DesignContest,
-            NoticeType.DesignContestResults,
-            NoticeType.ExAnte,
-            NoticeType.Modification,
-            NoticeType.SocialPriorInformation,
-            NoticeType.SocialContract,
-            NoticeType.SocialContractAward
+        public NoticeContractType[] EuPublicCategories { get; } = new[] {
+            NoticeContractType.PriorInformation,
+            NoticeContractType.PriorInformationReduceTimeLimits,
+            NoticeContractType.Contract,
+            NoticeContractType.ContractAward,
+            NoticeContractType.DesignContest,
+            NoticeContractType.DesignContestResults,
+            NoticeContractType.ExAnte,
+            NoticeContractType.Modification,
+            NoticeContractType.SocialPriorInformation,
+            NoticeContractType.SocialContract,
+            NoticeContractType.SocialContractAward
         };
 
-        public NoticeType[] NationalPublicCategories { get; } = new[] {
-            NoticeType.NationalPriorInformation,
-            NoticeType.NationalContract,
-            NoticeType.NationalSmallValueProcurement,
-            NoticeType.NationalDesignContest
+        public NoticeContractType[] NationalPublicCategories { get; } = new[] {
+            NoticeContractType.NationalPriorInformation,
+            NoticeContractType.NationalContract,
+            NoticeContractType.NationalSmallValueProcurement,
+            NoticeContractType.NationalDesignContest
         };
 
         /// <summary>
         /// 2009/81/EC
         /// </summary>
-        public NoticeType[] EuDefenceCategories { get; } = new[] {
-            NoticeType.DefencePriorInformation,
-            NoticeType.DefenceContract,
-            NoticeType.DefenceContractAward,
-            NoticeType.ExAnte
+        public NoticeContractType[] EuDefenceCategories { get; } = new[] {
+            NoticeContractType.DefencePriorInformation,
+            NoticeContractType.DefenceContract,
+            NoticeContractType.DefenceContractAward,
+            NoticeContractType.ExAnte
         };
 
-        public NoticeType[] NationalDefenceCategories { get; } = new[] {
-            NoticeType.NationalDefencePriorInformation,
-            NoticeType.NationalDefenceContract
+        public NoticeContractType[] NationalDefenceCategories { get; } = new[] {
+            NoticeContractType.NationalDefencePriorInformation,
+            NoticeContractType.NationalDefenceContract
         };
 
         /// <summary>
         /// 2014/25/EU
         /// </summary>
-        public NoticeType[] EuUtilityCategories { get; } = new[] {
-            NoticeType.PeriodicIndicativeUtilities,
-            NoticeType.ContractUtilities,
-            NoticeType.ContractAwardUtilities,
-            NoticeType.QualificationSystemUtilities,
-            NoticeType.DesignContest,
-            NoticeType.DesignContestResults,
-            NoticeType.ExAnte,
-            NoticeType.Modification,
-            NoticeType.PeriodicIndicativeUtilitiesReduceTimeLimits,
-            NoticeType.SocialUtilities,
-            NoticeType.SocialUtilitiesPriorInformation,
-            NoticeType.SocialUtilitiesContractAward,
-            NoticeType.SocialUtilitiesQualificationSystem
+        public NoticeContractType[] EuUtilityCategories { get; } = new[] {
+            NoticeContractType.PeriodicIndicativeUtilities,
+            NoticeContractType.ContractUtilities,
+            NoticeContractType.ContractAwardUtilities,
+            NoticeContractType.QualificationSystemUtilities,
+            NoticeContractType.DesignContest,
+            NoticeContractType.DesignContestResults,
+            NoticeContractType.ExAnte,
+            NoticeContractType.Modification,
+            NoticeContractType.PeriodicIndicativeUtilitiesReduceTimeLimits,
+            NoticeContractType.SocialUtilities,
+            NoticeContractType.SocialUtilitiesPriorInformation,
+            NoticeContractType.SocialUtilitiesContractAward,
+            NoticeContractType.SocialUtilitiesQualificationSystem
         };
 
         /// <summary>
         /// 2014/23/EU
         /// </summary>
-        public NoticeType[] EuLisenceCategories { get; } = new[] {
-            NoticeType.Concession,
-            NoticeType.ConcessionAward,
-            NoticeType.SocialConcessionPriorInformation,
-            NoticeType.SocialConcessionAward,
-            NoticeType.Modification,
-            NoticeType.ExAnte
+        public NoticeContractType[] EuLisenceCategories { get; } = new[] {
+            NoticeContractType.Concession,
+            NoticeContractType.ConcessionAward,
+            NoticeContractType.SocialConcessionPriorInformation,
+            NoticeContractType.SocialConcessionAward,
+            NoticeContractType.Modification,
+            NoticeContractType.ExAnte
         };
 
-        public NoticeType[] AgricultureCategories { get; } = new[] {
-            NoticeType.NationalAgricultureContract
+        public NoticeContractType[] AgricultureCategories { get; } = new[] {
+            NoticeContractType.NationalAgricultureContract
         };
 
     }

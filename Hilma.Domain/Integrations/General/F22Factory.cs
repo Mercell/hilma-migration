@@ -1,7 +1,7 @@
 using System;
 using System.Xml.Linq;
 using Hilma.Domain.Configuration;
-using Hilma.Domain.DataContracts;
+using Hilma.Domain.Data.Read;
 using Hilma.Domain.Integrations.Configuration;
 using Hilma.Domain.Integrations.ConfigurationFactories;
 

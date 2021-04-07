@@ -1,15 +1,11 @@
 using System;
-using Hilma.Domain.DataContracts;
-using Hilma.Domain.Entities;
-using Hilma.Domain.Enums;
 using Hilma.Domain.Integrations.Extensions;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Hilma.Domain.Entities.Annexes;
+using Hilma.Domain.Data.Read;
 using Hilma.Domain.Configuration;
 using System.Threading;
-using Newtonsoft.Json.Linq;
 
 namespace Hilma.Domain.Integrations.General
 {
@@ -600,7 +596,7 @@ namespace Hilma.Domain.Integrations.General
             // IV.2.1
             if (!string.IsNullOrEmpty(notice.PreviousNoticeOjsNumber) && !string.IsNullOrEmpty(parent.PreviousNoticeOjsNumber))
             {
-                changes.Add(parent.PreviousNoticeOjsNumber, notice.PreviousNoticeOjsNumber, typeof(NoticeContract), nameof(NoticeContract.PreviousNoticeOjsNumber));
+                changes.Add(parent.PreviousNoticeOjsNumber, notice.PreviousNoticeOjsNumber, typeof(NoticeContract), nameof(NoticeContractType.PreviousNoticeOjsNumber));
             }
             var parentTender = parent.TenderingInformation;
             var tender = notice.TenderingInformation;
